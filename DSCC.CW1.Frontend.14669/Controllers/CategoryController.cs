@@ -10,14 +10,14 @@ using System.Web.Mvc;
 
 namespace DCSS.CW1.Frontend._14669.Controllers
 {
-    public class BookController : Controller
+    public class CategoryController : Controller
     {
-        private readonly string baseUrl = "https://localhost:44366/api/Book";
+        private readonly string baseUrl = "https://localhost:44366/api/Category";
 
-        // GET: Book
+        // GET: Category
         public async Task<ActionResult> Index()
         {
-            List<Book> bookList = new List<Book>();
+            List<Category> categoryList = new List<Category>();
 
             using (var client = new HttpClient(new HttpClientHandler { ServerCertificateCustomValidationCallback = (message, cert, chain, sslPolicyErrors) => true }))
             {
@@ -29,21 +29,21 @@ namespace DCSS.CW1.Frontend._14669.Controllers
                 if (response.IsSuccessStatusCode)
                 {
                     var responseContent = await response.Content.ReadAsStringAsync();
-                    bookList = JsonConvert.DeserializeObject<List<Book>>(responseContent);
+                    categoryList = JsonConvert.DeserializeObject<List<Category>>(responseContent);
                 }
                 else
                 {
-                    ViewBag.ErrorMessage = "Failed to retrieve book items.";
+                    ViewBag.ErrorMessage = "Failed to retrieve categories.";
                 }
             }
 
-            return View(bookList);
+            return View(categoryList);
         }
 
-        // GET: Book/Details/5
+        // GET: Category/Details/5
         public async Task<ActionResult> Details(int id)
         {
-            Book book = null;
+            Category category = null;
 
             using (var client = new HttpClient(new HttpClientHandler { ServerCertificateCustomValidationCallback = (message, cert, chain, sslPolicyErrors) => true }))
             {
@@ -55,33 +55,33 @@ namespace DCSS.CW1.Frontend._14669.Controllers
                 if (response.IsSuccessStatusCode)
                 {
                     var responseContent = await response.Content.ReadAsStringAsync();
-                    book = JsonConvert.DeserializeObject<Book>(responseContent);
+                    category = JsonConvert.DeserializeObject<Category>(responseContent);
                 }
                 else
                 {
-                    return HttpNotFound("Book item not found.");
+                    return HttpNotFound("Category not found.");
                 }
             }
 
-            return View(book);
+            return View(category);
         }
 
-        // GET: Book/Create
+        // GET: Category/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Book/Create
+        // POST: Category/Create
         [HttpPost]
-        public async Task<ActionResult> Create(Book book)
+        public async Task<ActionResult> Create(Category category)
         {
             using (var client = new HttpClient(new HttpClientHandler { ServerCertificateCustomValidationCallback = (message, cert, chain, sslPolicyErrors) => true }))
             {
                 client.BaseAddress = new Uri(baseUrl);
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                var content = new StringContent(JsonConvert.SerializeObject(book), Encoding.UTF8, "application/json");
+                var content = new StringContent(JsonConvert.SerializeObject(category), Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await client.PostAsync("", content);
 
                 if (response.IsSuccessStatusCode)
@@ -90,16 +90,16 @@ namespace DCSS.CW1.Frontend._14669.Controllers
                 }
                 else
                 {
-                    ViewBag.ErrorMessage = "Failed to create the book item.";
-                    return View(book);
+                    ViewBag.ErrorMessage = "Failed to create the category.";
+                    return View(category);
                 }
             }
         }
 
-        // GET: Book/Edit/5
+        // GET: Category/Edit/5
         public async Task<ActionResult> Edit(int id)
         {
-            Book book = null;
+            Category category = null;
 
             using (var client = new HttpClient(new HttpClientHandler { ServerCertificateCustomValidationCallback = (message, cert, chain, sslPolicyErrors) => true }))
             {
@@ -111,22 +111,22 @@ namespace DCSS.CW1.Frontend._14669.Controllers
                 if (response.IsSuccessStatusCode)
                 {
                     var responseContent = await response.Content.ReadAsStringAsync();
-                    book = JsonConvert.DeserializeObject<Book>(responseContent);
+                    category = JsonConvert.DeserializeObject<Category>(responseContent);
                 }
                 else
                 {
-                    return HttpNotFound("Book item not found.");
+                    return HttpNotFound("Category not found.");
                 }
             }
 
-            return View(book);
+            return View(category);
         }
 
-        // POST: Book/Edit/5
+        // POST: Category/Edit/5
         [HttpPost]
-        public async Task<ActionResult> Edit(int id, Book book)
+        public async Task<ActionResult> Edit(int id, Category category)
         {
-            if (id != book.Id)
+            if (id != category.Id)
             {
                 return new HttpStatusCodeResult(400, "ID mismatch between route and body.");
             }
@@ -136,7 +136,7 @@ namespace DCSS.CW1.Frontend._14669.Controllers
                 client.BaseAddress = new Uri(baseUrl);
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                var content = new StringContent(JsonConvert.SerializeObject(book), Encoding.UTF8, "application/json");
+                var content = new StringContent(JsonConvert.SerializeObject(category), Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await client.PutAsync($"{baseUrl}/{id}", content);
 
                 if (response.IsSuccessStatusCode)
@@ -145,16 +145,16 @@ namespace DCSS.CW1.Frontend._14669.Controllers
                 }
                 else
                 {
-                    ViewBag.ErrorMessage = "Failed to update the book item.";
-                    return View(book);
+                    ViewBag.ErrorMessage = "Failed to update the category.";
+                    return View(category);
                 }
             }
         }
 
-        // GET: Book/Delete/5
+        // GET: Category/Delete/5
         public async Task<ActionResult> Delete(int id)
         {
-            Book book = null;
+            Category category = null;
 
             using (var client = new HttpClient(new HttpClientHandler { ServerCertificateCustomValidationCallback = (message, cert, chain, sslPolicyErrors) => true }))
             {
@@ -166,18 +166,18 @@ namespace DCSS.CW1.Frontend._14669.Controllers
                 if (response.IsSuccessStatusCode)
                 {
                     var responseContent = await response.Content.ReadAsStringAsync();
-                    book = JsonConvert.DeserializeObject<Book>(responseContent);
+                    category = JsonConvert.DeserializeObject<Category>(responseContent);
                 }
                 else
                 {
-                    return HttpNotFound("Book item not found.");
+                    return HttpNotFound("Category not found.");
                 }
             }
 
-            return View(book);
+            return View(category);
         }
 
-        // POST: Book/Delete/5
+        // POST: Category/Delete/5
         [HttpPost, ActionName("Delete")]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
@@ -194,7 +194,7 @@ namespace DCSS.CW1.Frontend._14669.Controllers
                 }
                 else
                 {
-                    ViewBag.ErrorMessage = "Failed to delete the book item.";
+                    ViewBag.ErrorMessage = "Failed to delete the category.";
                     return RedirectToAction("Delete", new { id = id });
                 }
             }
